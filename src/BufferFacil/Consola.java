@@ -55,7 +55,7 @@ public class Consola {
         Scanner consola = new Scanner(System.in);
         String entrada = consola.nextLine();
         entrada = entrada.toLowerCase();
-        if (entrada == "y" || entrada == "s" || entrada == "1" || entrada == "si" || entrada == "yes" || entrada == "y") {
+        if (entrada.equals("y") || entrada.equals("s") || entrada.equals("1") || entrada.equals("si") || entrada.equals("yes")){
             return true;
         } else {
             return false;
