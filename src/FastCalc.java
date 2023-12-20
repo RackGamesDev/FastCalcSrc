@@ -16,7 +16,7 @@ public class FastCalc {
         try{
             sesion();
         } catch (Exception e){
-            Consola.decir("Ha habido un error, inicia el programa e nuevo");
+            Consola.decir("Ha habido un error, inicia el programa de nuevo");
             System.exit(0);
         }
         resultados();
@@ -24,6 +24,7 @@ public class FastCalc {
     static int ejercicios = 0;
     static float maximo = 0;
     static boolean decimales = false;
+    static boolean negativos = false;
     static String nombre = "";
 
     static boolean suma = false;
@@ -39,11 +40,13 @@ public class FastCalc {
     static void preguntas(){
         Consola.decir("Bienvenido a FastCalc 1.0, el programa para entrenar el calculo mental");
         Consola.decir("¿Cuál es tu nombre?");
-        nombre = Consola.pedirString();
+        nombre = Consola.pedirString(true);
         Consola.decir("¿Cuantas operaciones quieres hacer esta sesión?");
         ejercicios = Consola.pedirInt(true);
         Consola.decir("¿Quieres usar decimales?");
         decimales = Consola.pedirBool();
+        Consola.decir("¿Quieres usar números negativos?");
+        negativos = Consola.pedirBool();
         Consola.decir("¿Como de grandes quieres que sean los números?");
         if(decimales){
             maximo = Consola.pedirFloat(true);
@@ -64,7 +67,7 @@ public class FastCalc {
             Consola.decir("H = restas y divisiones");
             Consola.decir("I = todo");
             Consola.decir("J = me ha dado pereza quita quita");
-            String decision = Consola.pedirString();
+            String decision = Consola.pedirString(true);
             decision = decision.toLowerCase();
             switch (decision) {
                 case "a":
@@ -102,7 +105,7 @@ public class FastCalc {
                     division = true;
                     break;
                 case "j":
-                    Consola.decir("adio joputa");
+                    Consola.decir("adios");
                     System.exit(0);
                     break;
                 default:
@@ -113,7 +116,7 @@ public class FastCalc {
         }
 
         Consola.decir("Muy bien " + nombre + ", ya está todo listo para empezar, pulsa enter cuando estés preparado y con el cronómetro activado:");
-        Consola.pedirString();
+        Consola.pedirString(false);
         Consola.decir(""); Consola.decir(""); Consola.decir(""); Consola.decir(""); Consola.decir("");
 
     }
@@ -138,6 +141,14 @@ public class FastCalc {
             } else {
                 numA = (int)Math.floor(Math.random() * maximo * 2 - maximo + 1);
                 numB = (int)Math.floor(Math.random() * maximo * 2 - maximo + 1);
+            }
+            if (!negativos) {
+                if (numA < 0) {
+                    numA *= -1;
+                }
+                if (numB < 0) {
+                    numB *= -1;
+                }
             }
             String operacion = "";
             float resultado = 0;
@@ -164,6 +175,11 @@ public class FastCalc {
                     resultado = numA * numB;
                     break;
                 case "/":
+                    if(numB > numA && !decimales){
+                        float temp = numA;
+                        numA = numB;
+                        numB = temp;
+                    }
                     if(numA == 0 || numB == 0){
                         numA++;
                         numB++;
@@ -200,10 +216,10 @@ public class FastCalc {
         Consola.decir("Sesión terminada, estos son tus resultados:");
         Consola.decir("Aciertos= " + aciertos + "/" + ejercicios);
         float porcentaje = (float)((float)aciertos / (float)ejercicios * 100);
-        if (porcentaje > 50) {
-            Consola.decir("Porcentaje acertado= " + aciertos + "%, has aprobado");
+        if (porcentaje >= 50) {
+            Consola.decir("Porcentaje acertado= " + porcentaje + "%, has aprobado");
         } else {
-            Consola.decir("Porcentaje acertado= " + aciertos + "%, has suspendido");
+            Consola.decir("Porcentaje acertado= " + porcentaje + "%, has suspendido");
         }
         Consola.decir("Segundos tardados = " + tiempo);
         Consola.decir("");        

@@ -3,9 +3,13 @@ package BufferFacil;
 import java.util.Scanner;
 
 public class Consola {
-    public static String pedirString(){
+    public static String pedirString(boolean obligatorio){
         Scanner consola = new Scanner(System.in);
         String entrada = consola.nextLine();
+        if(obligatorio && entrada.length() == 0){
+            decir("No has escrito nada");
+            return pedirString(obligatorio);
+        }
         return entrada;
     }
     public static float pedirFloat(boolean positivo){
